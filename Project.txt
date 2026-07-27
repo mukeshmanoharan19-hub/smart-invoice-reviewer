@@ -1,0 +1,17 @@
+User Story:
+    As a finance administrator at an Indian company, I want to upload a multilingual invoice or receipt and receive a prepared review containing the best combined extraction, GSTIN and policy results, and a suggested GL account so I can approve valid documents quickly and turn supplier errors into a clear correction request.
+    Note: Read that carefully. Client does not want an autonomous system that approves invoices. They wants a prepared review. The app does the reading, checking, and suggesting; they keeps the decision. That distinction drives everything that follows.
+
+What the app must do:
+    The scope for this build:
+
+    Accept one PDF or image per upload, with a 4 MB limit
+    Recognize whether the document is an invoice or a receipt automatically
+    Extract supplier and customer details, GSTINs, dates, purchase order, currency, totals, and line items
+    Validate Indian GSTIN formats offline and reconcile subtotal, tax, and total
+    Apply separate deterministic policies for invoices and receipts, including duplicate detection
+    Suggest a GL account from a fixed Northstar catalog, with the reviewer able to override
+    Let Maya correct fields, approve, reject, and draft (never send) a supplier correction email
+    Keep a review history with explicit deletion so a demo can be reset
+
+    Just as important is what stays out. No authentication, no queues, no email ingestion, no accounting-system integration. This is a teaching skeleton that keeps the engineering boundaries visible, not a production accounts-payable product.
