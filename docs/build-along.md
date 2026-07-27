@@ -26,21 +26,11 @@ cp frontend/.env.example frontend/.env
 ./scripts/dev.sh
 ```
 
-Regenerate the India sample corpus after changing scenarios:
-
-```bash
-cd backend
-uv run python scripts/generate_samples.py
-cd ..
-jq '{documents: length, pages: ([.[].pages] | add)}' samples/manifest.json
-```
-
 ## Important locations
 
 - `docs/client-brief.md`: the recurring finance problem and definition of done
 - `docs/architecture.md`: the intended boundaries and data flow
 - `samples/`: the fictional evaluation corpus and manifest
-- `backend/scripts/generate_samples.py`: regenerates the India GSTIN corpus
 - `backend/app/main.py`: the initial API boundary
 - `frontend/src/App.tsx`: the initial interface boundary
 
@@ -58,6 +48,5 @@ jq '{documents: length, pages: ([.[].pages] | add)}' samples/manifest.json
 - [ ] Frontend type-check, lint, and production build pass.
 - [ ] `./scripts/dev.sh --check` reports that Invoice Review is ready to start.
 - [ ] The health endpoint and starter screen load locally.
-- [ ] Sample corpus regenerates to 13 documents / 14 pages with GSTIN values.
 
 Continue with the [online tutorial](https://learn.datalumina.com/docs/invoice-review).

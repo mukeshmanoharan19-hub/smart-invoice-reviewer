@@ -2,15 +2,6 @@
 
 The project uses a generated golden corpus of 12 fictional invoices plus one Hindi fuel receipt in English, Hindi, Tamil, and Marathi. `manifest.json` records the expected document type, normalized fields, and policy outcomes. No private document or random internet scrape belongs in this repository.
 
-Regenerate and verify it with:
-
-```bash
-cd backend
-uv run python scripts/generate_samples.py
-cd ..
-jq '{documents: length, pages: ([.[].pages] | add)}' samples/manifest.json
-```
-
 Evaluate the complete golden corpus against the configured live Azure resource with:
 
 ```bash
