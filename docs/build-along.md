@@ -50,3 +50,34 @@ cp frontend/.env.example frontend/.env
 - [ ] The health endpoint and starter screen load locally.
 
 Continue with the [online tutorial](https://learn.datalumina.com/docs/invoice-review).
+
+## Document Intelligence invoice probe
+
+### Outcome
+
+`DocumentIntelligenceService` is a small extraction class for `prebuilt-invoice` and `prebuilt-receipt`. Playground scripts load local credentials, run Document Intelligence, map fields into Pydantic schemas under `app/schemas/`, and print the filled models.
+
+### Why
+
+Before wiring FastAPI routes or policy rules, confirm Azure extraction and that invoice/receipt fields can be mapped into provider-independent Pydantic models. Keep runnable examples in `playground/`.
+
+### Commands
+
+```bash
+cd backend
+uv run --locked --no-sync python -m playground.analyze_sample_invoice
+uv run --locked --no-sync python -m playground.analyze_sample_receipt
+```
+
+### What you should observe
+
+- Schemas live under `app/schemas/invoice` and `app/schemas/receipt`, with shared money/address/confidence types in `app/schemas/common.py`.
+- The invoice playground analyzes `samples/generated/invoice-001234567-dia-zota.pdf` and prints a mapped `Invoice` JSON model.
+- The receipt playground analyzes Microsoft’s public Contoso sample receipt URL with `prebuilt-receipt` and prints a mapped `Receipt` JSON model.
+- Mapped fields include identities, dates, money amounts with currency, line items, and optional tax details.
+
+### Checkpoint
+
+- [ ] Document Intelligence credentials are set in `backend/.env`.
+- [ ] Invoice and receipt playgrounds print filled Pydantic models.
+- [ ] Backend lint passes for `app` and `playground`.
