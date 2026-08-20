@@ -1,0 +1,53 @@
+"""Live OpenAI probe: run the default pipeline on one sample document."""
+
+from __future__ import annotations
+
+import json
+import logging
+import sys
+from pathlib import Path
+
+BACKEND_DIR = Path(__file__).resolve().parents[1]
+ROOT_DIR = BACKEND_DIR.parent
+if str(BACKEND_DIR) not in sys.path:
+    sys.path.insert(0, str(BACKEND_DIR))
+
+from app.config import get_settings  # noqa: E402
+from app.pipeline import build_default_pipeline, media_type_for_path  # noqa: E402
+
+SAMPLE_PATH = ROOT_DIR / "samples" / "generated" / "invoice-001234567-dia-zota.pdf"
+
+
+def main() -> None:
+    logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s %(message)s")
+    if not SAMPLE_PATH.exists():
+        raise SystemExit(f"Sample not found: {SAMPLE_PATH}")
+    settings = get_settings()
+    if settings.openai_api_key.startswith("replace-with"):
+        raise SystemExit("Set OPENAI_API_KEY in backend/.env before running this probe")
+
+    ctx = build_default_pipeline(settings=settings).run(
+        SAMPLE_PATH,
+        content_type=media_type_for_path(SAMPLE_PATH),
+    )
+    print(
+        json.dumps(
+            {
+                "classification": None
+                if ctx.classification is None
+                else ctx.classification.model_dump(mode="json"),
+                "gl_suggestion": None
+                if ctx.gl_suggestion is None
+                else ctx.gl_suggestion.model_dump(mode="json"),
+                "issue_codes": []
+                if ctx.issues is None
+                else [issue.code for issue in ctx.issues],
+                "vendor_name": None if ctx.review_data is None else ctx.review_data.vendor_name,
+            },
+            indent=2,
+        )
+    )
+
+
+if __name__ == "__main__":
+    main()

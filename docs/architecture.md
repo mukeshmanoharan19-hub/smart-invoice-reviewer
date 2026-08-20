@@ -1,10 +1,10 @@
 # Target architecture
 
-Invoice Review will be built as a small local full-stack application. The learner starter intentionally contains only a FastAPI health endpoint and a React landing screen.
+Invoice Review is a small local full-stack application. OpenAI extracts evidence from one uploaded document. Deterministic Python applies Northstar policy. Maya keeps the final decision.
 
 ## Intended boundaries
 
-- Provider adapters normalize Azure responses before data reaches the domain.
+- Provider adapters normalize OpenAI responses before data reaches the domain.
 - Deterministic invoice and receipt rules remain separate from model extraction.
 - Routes own HTTP concerns, a service owns orchestration, and a repository owns SQLite access.
 - Environment values are read through one backend settings module and one frontend environment module.
@@ -15,14 +15,15 @@ Invoice Review will be built as a small local full-stack application. The learne
 ```mermaid
 flowchart LR
     user[Finance administrator] --> ui[React review UI]
-    ui --> api[FastAPI]
-    api --> providers[Azure provider adapters]
+    ui --> api[FastAPI documents API]
+    api --> pipeline[Pipeline runner]
+    pipeline --> providers[OpenAI provider adapters]
     providers --> normalized[Normalized document data]
     normalized --> rules[Deterministic finance rules]
-    rules --> db[(SQLite)]
+    rules --> db[(SQLite documents.db)]
     db --> ui
 ```
 
-## Starter checkpoint
+## Extraction note
 
-The backend exposes `GET /health`, the frontend renders the starter screen, the fictional corpus is available under `samples/`, and no completed review workflow exists on `main`.
+A `Pipeline` runner executes ordered steps against an immutable context: classify, extract, stamp field provenance, suggest GL, validate. Classification and extraction use OpenAI Responses API structured output. Human edits mark fields as `human` and outrank model confidence. Correction emails draft only for supplier-fixable issue codes. Deterministic Python validates GSTIN checksums, reconciles totals, and decides which issues block approval.

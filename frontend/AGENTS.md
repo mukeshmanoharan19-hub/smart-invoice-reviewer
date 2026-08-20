@@ -14,8 +14,6 @@ This is not a Next.js application. Do not introduce Next.js, SSR, server compone
 
 ## Layout
 
-The starter branch intentionally contains only `src/.gitkeep`. Create the interface during the build using this layout:
-
 ```text
 frontend/
 ├── src/
@@ -64,15 +62,8 @@ Do not create route, state, form, or component frameworks before the workflow ne
 
 ## Verification
 
-The starter has no frontend implementation. Verify it only with:
-
 ```bash
 pnpm install --frozen-lockfile
-```
-
-As implementation is added, keep all documented frontend checks green:
-
-```bash
 pnpm exec tsc -b --pretty false
 pnpm lint
 pnpm build
@@ -80,4 +71,4 @@ pnpm build
 
 Complete verification includes a manual browser walkthrough of the full upload, processing, review, correction, decision, history, and deletion workflow.
 
-Do not add Vitest, Jest, Playwright, Cypress, `*.test.*`, or another automated frontend test setup. This weekly teaching project uses strict typing, linting, production builds, and manual browser verification as defined by the root instructions.
+Do not add Vitest, Jest, Playwright, Cypress, `*.test.*`, or another automated frontend test setup.

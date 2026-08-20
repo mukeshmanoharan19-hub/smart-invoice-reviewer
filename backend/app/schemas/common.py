@@ -1,4 +1,4 @@
-"""Shared schema primitives for Document Intelligence field mapping."""
+"""Shared schema primitives for normalized document fields."""
 
 from __future__ import annotations
 
